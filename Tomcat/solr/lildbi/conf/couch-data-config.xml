@@ -1,0 +1,47 @@
+<dataConfig>
+    <dataSource type="URLDataSource" />
+    <document>
+        <entity name="document"
+			processor="XPathEntityProcessor"
+			forEach="/xml/doc"
+			url="http://${dataimporter.request.host}:${dataimporter.request.port}/${dataimporter.request.base}/_design/solr/_list/toXml/by_id"
+			stream="true"
+		>
+		
+			<field xpath="/xml/doc/field[@name='id']" column="id" />
+			
+			<field xpath="/xml/doc/value/field[@name='v1']" column="v1" />
+			<field xpath="/xml/doc/value/field[@name='v2']" column="v2" />
+			<field xpath="/xml/doc/value/field[@name='v3']" column="v3" />
+			<field xpath="/xml/doc/value/field[@name='v4']" column="v4" />	
+			<field xpath="/xml/doc/value/field[@name='v5']" column="v5" />
+			<field xpath="/xml/doc/value/field[@name='v6']" column="v6" />
+			<field xpath="/xml/doc/value/field[@name='v8']" column="v8" />
+			<field xpath="/xml/doc/value/field[@name='v10']" column="v10" />	
+			<field xpath="/xml/doc/value/field[@name='v12']" column="v12" />	
+			<field xpath="/xml/doc/value/field[@name='v16']" column="v16" />
+			<field xpath="/xml/doc/value/field[@name='v18']" column="v18" />
+			<field xpath="/xml/doc/value/field[@name='v23']" column="v23" />
+			<field xpath="/xml/doc/value/field[@name='v25']" column="v25" />
+			<field xpath="/xml/doc/value/field[@name='v30']" column="v30" />
+			<field xpath="/xml/doc/value/field[@name='v31']" column="v31" />
+			<field xpath="/xml/doc/value/field[@name='v32']" column="v32" />
+			<field xpath="/xml/doc/value/field[@name='v40']" column="v40" />
+			<field xpath="/xml/doc/value/field[@name='v64']" column="v64" />	
+			<field xpath="/xml/doc/value/field[@name='v65']" column="v65" />
+			<field xpath="/xml/doc/value/field[@name='v66']" column="v66" />
+			<field xpath="/xml/doc/value/field[@name='v67']" column="v67" />	
+			<field xpath="/xml/doc/value/field[@name='v71']" column="v71" />
+			<field xpath="/xml/doc/value/field[@name='v72']" column="v72" />
+			<field xpath="/xml/doc/value/field[@name='v76']" column="v76" />
+			<field xpath="/xml/doc/value/field[@name='v83']" column="v83" />
+			<field xpath="/xml/doc/value/field[@name='v85']" column="v85" />
+			<field xpath="/xml/doc/value/field[@name='v87']" column="v87" />
+			<field xpath="/xml/doc/value/field[@name='v98']" column="v98" />
+			
+	
+		</entity>
+    </document>
+</dataConfig>
+
+

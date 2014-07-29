@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="example" version="1.5">
+
+ <fields>
+      
+	   <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
+	  
+	   <field name="v1" type="string" indexed="true" stored="true" />					<!-- Codigo del centro -->
+	   <field name="v2" type="int"    indexed="true" stored="true" />  					<!-- Numero entero que lo identifica dentro de la base -->
+	   <field name="v3" type="string" indexed="true" stored="true" /> 					<!-- Localizacion -->
+	   <field name="v4" type="lowercase" indexed="true" stored="true"/> 				<!-- Nombre de la Base -->
+	   <field name="v5" type="string" indexed="true" stored="true" />					<!-- Tipo Literatura -->
+	   <field name="v6" type="string" indexed="true" stored="true" />					<!-- Nivel tratamiento-->
+	   <field name="v8" type="string" indexed="true" stored="true" />					<!-- Direccion electronica -->
+	   <field name="v10" type="string" indexed="true" stored="true" />					<!-- Autor N Analitico-->
+	   <field name="v12" type="string" indexed="true" stored="true"/>					<!-- Titulo  Analitico-->  
+	   <field name="v16" type="string" indexed="true" stored="true"/>					<!-- Autor N Monografico-->
+	   <field name="v18" type="string" indexed="true" stored="true"/>					<!-- Titulo  Monografico--> 
+	   <field name="v23" type="string" indexed="true" stored="true"/>					<!-- Autor N Coleccion-->
+	   <field name="v25" type="string" indexed="true" stored="true"/>					<!-- Titulo  Coleccion-->    
+	   <field name="v30" type="string" indexed="true" stored="true"/>					<!-- Titulo  Serie--> 
+	   <field name="v31" type="string" indexed="false" stored="true"/>					<!-- Volumen--> 
+	   <field name="v32" type="string" indexed="false" stored="true"/>					<!-- Número del fascículo--> 
+	   <field name="v40" type="string" indexed="true" stored="true"/>					<!-- Idioma -->
+	   <field name="v64" type="string" indexed="true" stored="true"/>					<!-- Fecha publicacion -->
+	   <field name="v65" type="dateiso" indexed="true" stored="true"/>					<!-- Fecha pub normalizada -->
+	   <field name="v66" type="string" indexed="true" stored="true"/>					<!-- Ciudad de Pub -->
+	   <field name="v67" type="string" indexed="true" stored="true"/>					<!-- Pais de Pub -->
+	   <field name="v71" type="string" indexed="true" stored="true"/>					<!-- Tipo publicacion --> 
+	   <field name="v72" type="string" indexed="true" stored="true"/>					<!-- Referencias -->   	   
+	   <field name="v76" type="string" indexed="true" stored="true"/>					<!-- Descripores -->
+	   <field name="v83" type="string" indexed="true" stored="true"/>					<!-- Resumen -->
+	   <field name="v85" type="string" indexed="true" stored="true"/>					<!-- Palabras claves de autor -->
+	   <field name="v87" type="string" indexed="true" stored="true"/>					<!-- Descripores Principales -->
+	   <field name="v98" type="string" indexed="true" stored="true"/>					<!-- Id Regisro fuente doc normales -->
+	   
+	   <field name="_version_" type="long" indexed="true" stored="true"/>						
+	   <field name="text" type="text" indexed="true" stored="false" multiValued="true"/>
+	   
+ </fields>
+
+  <copyField source="v10" dest="text"/>
+  <copyField source="v12" dest="text"/>
+  <copyField source="v16" dest="text"/>
+  <copyField source="v18" dest="text"/>
+  <copyField source="v23" dest="text"/>
+  <copyField source="v25" dest="text"/>
+  <copyField source="v30" dest="text"/>
+  <copyField source="v76" dest="text"/>
+  <copyField source="v83" dest="text"/>
+  <copyField source="v85" dest="text"/>
+  <copyField source="v87" dest="text"/>
+ 	
+  <types>
+  
+		<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+		<fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+		<fieldType name="float" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
+		<fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+		
+		<!-- Para tratar campos identificadores que sean de texto -->
+		<fieldType name="lowercase" class="solr.TextField" positionIncrementGap="100">
+		  <analyzer>
+			<tokenizer class="solr.KeywordTokenizerFactory"/>
+			<filter class="solr.LowerCaseFilterFactory" />
+		  </analyzer>
+		</fieldType>
+		
+		<!-- Para textos que no lleven mucho análisis-->
+		<fieldType name="text_simple" class="solr.TextField" positionIncrementGap="100">
+				<analyzer type="index">
+					<tokenizer class="solr.StandardTokenizerFactory"/>
+					<filter class="solr.LowerCaseFilterFactory"/>
+				</analyzer>
+				<analyzer type="query">
+					<tokenizer class="solr.StandardTokenizerFactory"/>
+					<filter class="solr.LowerCaseFilterFactory"/>
+				</analyzer>
+		</fieldType>
+		
+		<!-- Para la búsqueda a texto completo -->
+		<fieldtype name="text" class="solr.TextField">
+				<analyzer type="query">
+					<tokenizer class="solr.StandardTokenizerFactory"/>
+					<filter class="solr.ASCIIFoldingFilterFactory"/>
+					<filter class="solr.WordDelimiterFilterFactory"
+					   generateWordParts="1"
+					   generateNumberParts="1"
+					   splitOnCaseChange="1"
+					   catenateWords="0"
+					   catenateNumbers="0"
+					   catenateAll="0"
+					   preserveOriginal="1"
+					   />
+					<filter class="solr.LowerCaseFilterFactory"/>
+					<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"  />
+					<filter class="solr.SnowballPorterFilterFactory" language="Spanish"/>
+				</analyzer>
+				<analyzer type="index">
+					<tokenizer class="solr.StandardTokenizerFactory"/>
+					<filter class="solr.ASCIIFoldingFilterFactory"/>
+					<filter class="solr.WordDelimiterFilterFactory"
+					   generateWordParts="1"
+					   generateNumberParts="1"
+					   splitOnCaseChange="1"
+					   catenateWords="1"
+					   catenateNumbers="1"
+					   catenateAll="0"
+					   preserveOriginal="1"
+					   />
+					<filter class="solr.LowerCaseFilterFactory"/>
+					<filter class="solr.StopFilterFactory"  ignoreCase="true" words="stopwords.txt" />
+					<filter class="solr.SnowballPorterFilterFactory" language="Spanish"/>
+				</analyzer>
+		</fieldtype>
+		
+	<!-- Para extraer el año en las fechas normalizadas como especifica LILACS-->
+	<fieldtype name="dateiso" class="solr.TextField">
+		<analyzer type="index">
+			<tokenizer class="solr.PatternTokenizerFactory" pattern="(^[0-9]{4})" group="1"/>
+		</analyzer>
+	</fieldtype>
+	
+  </types>
+  
+ <uniqueKey>id</uniqueKey>
+ <defaultSearchField>text</defaultSearchField>
+ <solrQueryParser defaultOperator="OR"/>
+</schema>
